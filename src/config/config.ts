@@ -13,7 +13,7 @@ function getEnvVar(key: string): string {
   }
   return value;
 }
-
+//config
 const config: Record<Env, {
   db: {
     username: string;
