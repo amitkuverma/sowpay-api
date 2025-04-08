@@ -38,14 +38,14 @@ const config: Record<Env, {
   },
   production: {
     db: {
-      username: 'gorkhacoin',
-      password: 'Gorkhacoin*&5413',
-      database: 'gorkhacoin_db',
-      host: '88.222.212.197',
+      username: 'sql12771913',
+      password: 'Xw5a8NfQCB',
+      database: 'sql12771913',
+      host: 'sql12.freesqldatabase.com',
       dialect: 'mysql', 
     },
     corsOrigin: '*',
-    swaggerUrl: 'https://api.gorkhacoin.com',
+    swaggerUrl: 'https://sowpay-api.vercel.app/',
   },
 };
 
