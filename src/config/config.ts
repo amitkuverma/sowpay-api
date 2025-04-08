@@ -27,14 +27,14 @@ const config: Record<Env, {
 }> = {
   development: {
     db: {
-      username: getEnvVar('DB_USER'),   
-      password: '',
-      database: getEnvVar('DB_NAME'),   
-      host: getEnvVar('DB_HOST'),       
-      dialect: getEnvVar('DB_DIALECT'), 
+      username: 'sql12771913',
+      password: 'Xw5a8NfQCB',
+      database: 'sql12771913',
+      host: 'sql12.freesqldatabase.com',
+      dialect: 'mysql', 
     },
     corsOrigin: '*',
-    swaggerUrl: getEnvVar('SWAGGER_URL'),
+    swaggerUrl: 'https://sowpay-api.vercel.app/',
   },
   production: {
     db: {
