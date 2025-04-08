@@ -34,7 +34,7 @@ const config: Record<Env, {
       dialect: 'mysql', 
     },
     corsOrigin: '*',
-    swaggerUrl: 'https://sowpay-api.vercel.app/',
+    swaggerUrl: 'https://sowpay-api.onrender.com/',
   },
   production: {
     db: {
@@ -45,7 +45,7 @@ const config: Record<Env, {
       dialect: 'mysql', 
     },
     corsOrigin: '*',
-    swaggerUrl: 'https://sowpay-api.vercel.app/',
+    swaggerUrl: 'https://sowpay-api.onrender.com/',
   },
 };
 
