@@ -3,6 +3,7 @@ import UserController from '../controllers/user.controller';
 import { login, resendOtp, resetPassword, forgotPassword, verifyOTP } from '../controllers/login.controller';
 import { authenticateToken } from '../middlewares/auth';
 import OtpVerification from '../controllers/OtpVerification.controller';
+import { getUserQrCode } from '../controllers/auth.controller';
 
 const router = Router();
 
@@ -396,10 +397,10 @@ router.post('/reset-password', resetPassword);
 
 /**
  * @swagger
- * /api/forgot-password:
+ * /api/auth/forgot-password:
  *   post:
- *     summary: Initiates a password reset
- *     tags: Authentication
+ *     summary: Initiate password reset
+ *     tags: [Authentication]
  *     description: Sends a password reset email with a token if the email is registered.
  *     requestBody:
  *       required: true
@@ -407,17 +408,37 @@ router.post('/reset-password', resetPassword);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - email
  *             properties:
  *               email:
  *                 type: string
- *                 description: User's registered email address
+ *                 format: email
+ *                 description: Registered email address of the user
  *                 example: user@example.com
  *     responses:
  *       200:
  *         description: Password reset link sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Password reset link sent to your email
  *       404:
  *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: User not found
  */
+
 router.post('/forgot-password', forgotPassword);
 
 /**
@@ -563,6 +584,7 @@ router.post('/reset-internal-password', UserController.resetPassword);
  * @openapi
  * /api/otp/send:
  *   post:
+ *     tags: [Authentication]
  *     summary: Send an OTP to the user's email
  *     description: Sends a One-Time Password (OTP) to the specified user
  *     requestBody:
@@ -593,6 +615,7 @@ router.post('/send', OtpVerification.sendOtp);
  * @openapi
  * /api/otp/verify:
  *   post:
+ *     tags: [Authentication]
  *     summary: Verify the OTP sent to the user's email or mobile
  *     description: Verifies the provided OTP for the specified user
  *     requestBody:

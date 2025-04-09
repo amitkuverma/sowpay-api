@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Debug App (TypeScript)",
+        "skipFiles": ["<node_internals>/**"],
+        "program": "${workspaceFolder}/src/index.ts",  // Or server.ts, app.ts — your entry file
+        "preLaunchTask": "tsc: build - tsconfig.json",
+        "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+        "sourceMaps": true,
+        "runtimeArgs": ["--require", "ts-node/register"],
+        "cwd": "${workspaceFolder}",
+        "env": {
+          "NODE_ENV": "development"
+        }
+      }
+    ]
+  }
+  

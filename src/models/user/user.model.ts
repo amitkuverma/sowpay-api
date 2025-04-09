@@ -7,18 +7,21 @@ class User extends Model {
   public email!: string;
   public mobile!: string;
   public password!: string;
-  public filename?: string;
-  public filepath?: string;
-  public mimetype?: string;
+  public referredBy!: string;
+  public shop_front_url?: string;
+  public shop_counter_url?: string;
+  public other_img_url?: string;
   public docname?: string;
   public docpath?: string;
-  public docmimetype?: string;
   public referralCode?: string; // Optional field
   public parentUserId?: number | null; // Optional foreign key reference
   public otp?: string; // Optional OTP field
   public otpExpiry?: Date; // Optional OTP fieldx 
   public emailVerified!: boolean;
   public status!: string;
+  public profilePicture?: string;
+  public provider!: string;
+  public isShopkeeper!: boolean;
   public isAdmin!: boolean;
 }
 
@@ -30,7 +33,7 @@ User.init({
   },
   name: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   email: {
     type: DataTypes.STRING,
@@ -39,12 +42,16 @@ User.init({
   },
   mobile: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
     unique: true,
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  referredBy: {
+    type: DataTypes.STRING,
+    allowNull: true,
   },
   otp: {
     type: DataTypes.STRING,
@@ -58,15 +65,15 @@ User.init({
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  filename: {
+  shop_front_url: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  filepath: {
+  shop_counter_url: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  mimetype: {
+  other_img_url: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -78,7 +85,7 @@ User.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
-  docmimetype: {
+  qr_img_url: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -101,6 +108,16 @@ User.init({
     type: DataTypes.STRING,
     allowNull: true,
     defaultValue: "pending" // Fixed typo here
+  },  
+  profilePicture: { 
+    type: DataTypes.STRING 
+  },
+  provider: { 
+    type: DataTypes.STRING 
+  },
+  isShopkeeper: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
   isAdmin: {
     type: DataTypes.BOOLEAN,

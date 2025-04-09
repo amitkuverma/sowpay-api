@@ -10,6 +10,7 @@ const transRouter = Router();
  * /api/transactions:
  *   get:
  *     summary: Retrieve a list of transactions
+ *     tags: [Transactions]
  *     responses:
  *       200:
  *         description: A list of transactions.
@@ -21,6 +22,7 @@ transRouter.get('/transaction/', authenticateToken, TransactionController.getAll
  * /api/transactions/{id}:
  *   get:
  *     summary: Get a transaction by ID
+ *     tags: [Transactions]
  *     parameters:
  *       - in: path
  *         name: id
@@ -37,6 +39,7 @@ transRouter.get('/transaction/:transId', authenticateToken, TransactionControlle
  * /api/transactions:
  *   post:
  *     summary: Create a new transaction
+ *     tags: [Transactions]
  *     requestBody:
  *       description: Transaction data to create
  *     responses:
@@ -50,6 +53,7 @@ transRouter.post('/transaction/', authenticateToken, TransactionController.creat
  * /api/transactions/{id}:
  *   put:
  *     summary: Update a transaction by ID
+ *     tags: [Transactions]
  *     parameters:
  *       - in: path
  *         name: id
@@ -66,6 +70,7 @@ transRouter.put('/transaction/:transId', authenticateToken, TransactionControlle
  * /api/transactions/{id}:
  *   delete:
  *     summary: Delete a transaction by ID
+ *     tags: [Transactions]
  *     parameters:
  *       - in: path
  *         name: id

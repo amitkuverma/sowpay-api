@@ -8,6 +8,7 @@ const fileRouter = express.Router();
  * /api/upload:
  *   post:
  *     summary: Upload a file
+ *     tags: [File Upload]
  *     description: Upload a file to the server.
  *     consumes:
  *       - multipart/form-data

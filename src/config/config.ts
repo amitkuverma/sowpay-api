@@ -13,7 +13,7 @@ function getEnvVar(key: string): string {
   }
   return value;
 }
-//config
+
 const config: Record<Env, {
   db: {
     username: string;
@@ -27,14 +27,14 @@ const config: Record<Env, {
 }> = {
   development: {
     db: {
-      username: 'sql12771913',
-      password: 'Xw5a8NfQCB',
-      database: 'sql12771913',
-      host: 'sql12.freesqldatabase.com',
-      dialect: 'mysql', 
+      username: getEnvVar('DB_USER'),   
+      password: '',
+      database: getEnvVar('DB_NAME'),   
+      host: getEnvVar('DB_HOST'),       
+      dialect: getEnvVar('DB_DIALECT'), 
     },
     corsOrigin: '*',
-    swaggerUrl: 'https://sowpay-api.onrender.com/',
+    swaggerUrl: getEnvVar('SWAGGER_URL'),
   },
   production: {
     db: {
