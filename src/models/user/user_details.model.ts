@@ -16,6 +16,7 @@ interface BasicDetailsAttributes {
   address: string;
   latitude: string;
   longitude: string;
+  qrCode: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -36,6 +37,7 @@ class BasicDetails extends Model<BasicDetailsAttributes, BasicDetailsCreationAtt
   public address!: string;
   public latitude!: string;
   public longitude!: string;
+  public qrCode!: string; // Assuming you want to store the QR code as a string
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -63,6 +65,7 @@ BasicDetails.init(
     address: DataTypes.STRING,
     latitude: DataTypes.STRING,
     longitude: DataTypes.STRING,
+    qrCode: DataTypes.STRING,
   },
   {
     tableName: 'basic_details',

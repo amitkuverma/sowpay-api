@@ -70,7 +70,7 @@ const router = Router();
  *       201:
  *         description: Created successfully
  */
-router.post('/', createBasicDetails);
+router.post('/basic-details', createBasicDetails);
 
 /**
  * @swagger
@@ -82,7 +82,7 @@ router.post('/', createBasicDetails);
  *       200:
  *         description: List of all basic details
  */
-router.get('/', getAllBasicDetails);
+router.get('/basic-details', getAllBasicDetails);
 
 /**
  * @swagger
@@ -103,7 +103,7 @@ router.get('/', getAllBasicDetails);
  *       404:
  *         description: Not found
  */
-router.get('/:userId', getBasicDetailsByUserId);
+router.get('/basic-details/:userId', getBasicDetailsByUserId);
 
 /**
  * @swagger
@@ -153,7 +153,7 @@ router.get('/:userId', getBasicDetailsByUserId);
  *       404:
  *         description: Not found
  */
-router.put('/:userId', updateBasicDetails);
+router.put('/basic-details/:userId', updateBasicDetails);
 
 /**
  * @swagger
@@ -174,6 +174,6 @@ router.put('/:userId', updateBasicDetails);
  *       404:
  *         description: Not found
  */
-router.delete('/:userId', deleteBasicDetails);
+router.delete('/basic-details/:userId', deleteBasicDetails);
 
 export default router;

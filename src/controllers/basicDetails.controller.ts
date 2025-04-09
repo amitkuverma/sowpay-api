@@ -1,9 +1,13 @@
 // controllers/basicDetails.controller.ts
 import { Request, Response } from 'express';
 import BasicDetails from '../models/user/user_details.model';
+import { generateUserQRCode } from '../utils/qrcode.utils';
 
 export const createBasicDetails = async (req: Request, res: Response) => {
   try {
+    
+    const qrCode = await generateUserQRCode(req.body);
+    req.body.qrCode = qrCode; // Add the QR code to the request body
     const basicDetails = await BasicDetails.create(req.body);
     res.status(201).json(basicDetails);
   } catch (err) {

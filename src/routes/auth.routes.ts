@@ -242,7 +242,7 @@ router.post('/apple', appleAuth);
  * @swagger
  * /auth/qrcode:
  *   post:
- *     summary: Generate QR code for user basic info
+ *     summary: Generate QR code for full user/shop info
  *     tags: [Authentication]
  *     requestBody:
  *       required: true
@@ -257,11 +257,46 @@ router.post('/apple', appleAuth);
  *                 type: string
  *               phone:
  *                 type: string
+ *               userId:
+ *                 type: integer
+ *               village:
+ *                 type: string
+ *               city:
+ *                 type: string
+ *               district:
+ *                 type: string
+ *               state:
+ *                 type: string
+ *               shopname:
+ *                 type: string
+ *               category:
+ *                 type: string
+ *               gst_number:
+ *                 type: string
+ *               pincode:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               latitude:
+ *                 type: string
+ *               longitude:
+ *                 type: string
  *     responses:
  *       200:
- *         description: QR code generated
+ *         description: QR code generated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 qrCode:
+ *                   type: string
+ *                   format: uri
+ *                   description: Base64-encoded QR image (Data URL)
+ *       400:
+ *         description: Missing or invalid input
  *       500:
- *         description: Server error
+ *         description: Server error while generating QR code
  */
 router.post('/qrcode', getUserQrCode);
 

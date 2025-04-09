@@ -11,12 +11,14 @@ import Product from './products/product.model';
 import Notification from './order/notification.model';
 
 import defineAssociationsDynamically from '../associations';
+import BasicDetails from './user/user_details.model';
 
 const models = {
   User,
   Payment,
   AccountDetails,
   Transaction,
+  BasicDetails,
   Coin,
   Order,
   OrderItem,
@@ -36,15 +38,19 @@ const modelAssociations = {
   },
 
   Payment: {
-    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'user' }],
+    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'paymentUser' }],
   },
 
   AccountDetails: {
-    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'user' }],
+    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'accountUser' }],
   },
 
   Transaction: {
-    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'user' }],
+    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'transactionUser' }],
+  },
+
+  BasicDetails: {
+    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'basicUser' }],
   },
 
   Order: {
@@ -67,7 +73,7 @@ const modelAssociations = {
   Notification: {
     belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'user' }],
   },
-  
+
 };
 
 defineAssociationsDynamically(models, modelAssociations);

@@ -13,6 +13,7 @@ import orderRouter from './routes/order.routes';
 import authRouter from './routes/auth.routes';
 import detailsRouter from './routes/auth.routes';
 import productRouter from './routes/product.routes';
+import basicRouter from './routes/basicDetails.routes';
 import path from 'path';
 
 const app: Application = express();
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 app.use(corsMiddleware);
 
 // Routes
-app.use('/api', userRoutes, otpRoutes, paymentRouter, accRouter, transRouter, coinRouter, fileRouter, orderRouter, detailsRouter, productRouter);
+app.use('/api', userRoutes, otpRoutes, paymentRouter, accRouter, transRouter, coinRouter, fileRouter, orderRouter, detailsRouter, productRouter, basicRouter);
 app.use('/auth', authRouter);
 app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
