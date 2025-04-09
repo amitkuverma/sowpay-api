@@ -65,7 +65,7 @@ BasicDetails.init(
     address: DataTypes.STRING,
     latitude: DataTypes.STRING,
     longitude: DataTypes.STRING,
-    qrCode: DataTypes.STRING,
+    qrCode: DataTypes.TEXT,
   },
   {
     tableName: 'basic_details',
