@@ -1,10 +1,7 @@
 import sequelize from '../config/database';
 import User from './user/user.model';
 import Payment from './user/payment.model';
-import AccountDetails from './user/account.model';
 import Transaction from './user/transaction.model';
-import Coin from './user/coin.model';
-
 import Order from './order/order.model';
 import OrderItem from './order/orderItem.model';
 import Product from './products/product.model';
@@ -16,10 +13,8 @@ import BasicDetails from './user/user_details.model';
 const models = {
   User,
   Payment,
-  AccountDetails,
   Transaction,
   BasicDetails,
-  Coin,
   Order,
   OrderItem,
   Product,
@@ -30,7 +25,6 @@ const modelAssociations = {
   User: {
     hasMany: [
       { targetModel: 'Payment', foreignKey: 'userId', as: 'payments' },
-      { targetModel: 'AccountDetails', foreignKey: 'userId', as: 'accountDetails' },
       { targetModel: 'Transaction', foreignKey: 'userId', as: 'transactions' },
       { targetModel: 'Order', foreignKey: 'userId', as: 'orders' },
       { targetModel: 'Notification', foreignKey: 'userId', as: 'notifications' },
@@ -39,10 +33,6 @@ const modelAssociations = {
 
   Payment: {
     belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'paymentUser' }],
-  },
-
-  AccountDetails: {
-    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'accountUser' }],
   },
 
   Transaction: {

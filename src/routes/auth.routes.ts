@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { googleAuth, appleAuth, register, getUserQrCode } from '../controllers/auth.controller';
-import { login, resendOtp, resetPassword } from '../controllers/login.controller';
+import { forgotPassword, login, resendOtp, resetPassword, verifyOTP } from '../controllers/login.controller';
+import UserController from '../controllers/user.controller';
+import { sendOtp, verifyOtp} from '../controllers/OtpVerification.controller';
 
 const router = Router();
 
@@ -161,6 +163,153 @@ router.post('/resend-otp', resendOtp);
  *         description: Internal server error.
  */
 router.post('/reset-password', resetPassword);
+
+/**
+ * @swagger
+ * /api/auth/forgot-password:
+ *   post:
+ *     summary: Initiate password reset
+ *     tags: [Authentication]
+ *     description: Sends a password reset email with a token if the email is registered.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 description: Registered email address of the user
+ *                 example: user@example.com
+ *     responses:
+ *       200:
+ *         description: Password reset link sent successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Password reset link sent to your email
+ *       404:
+ *         description: User not found
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: User not found
+ */
+
+router.post('/forgot-password', forgotPassword);
+
+/**
+ * @swagger
+ * /api/reset-internal-password:
+ *   post:
+ *     summary: Completes password reset with a new password
+ *     description: Resets the user password if the provided token is valid.
+ *     tags:
+ *       - User
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: integer
+ *                 description: User's unique identifier
+ *                 example: 1
+ *               token:
+ *                 type: string
+ *                 description: Reset token sent via email
+ *                 example: abcdef123456
+ *               newPassword:
+ *                 type: string
+ *                 description: New password to replace the old one
+ *                 example: NewStrongPassword!123
+ *     responses:
+ *       200:
+ *         description: Password reset successful
+ *       400:
+ *         description: Invalid or expired token
+ */
+router.post('/reset-internal-password', UserController.resetPassword);
+
+/**
+ * @openapi
+ * /auth/send-otp:
+ *   post:
+ *     tags: [Authentication]
+ *     summary: Send an OTP to the user's email
+ *     description: Sends a One-Time Password (OTP) to the specified user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: integer
+ *                 description: The ID of the user to whom the OTP will be sent
+ *               type:
+ *                 type: string
+ *                 enum: [email, mobile]
+ *                 description: The medium to send OTP (email or mobile)
+ *     responses:
+ *       200:
+ *         description: OTP sent successfully
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/send-otp', sendOtp);
+
+/**
+ * @openapi
+ * /auth/verify-otp:
+ *   post:
+ *     tags: [Authentication]
+ *     summary: Verify the OTP sent to the user's email or mobile
+ *     description: Verifies the provided OTP for the specified user
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: integer
+ *                 description: The ID of the user
+ *               otp:
+ *                 type: string
+ *                 description: The OTP to verify
+ *               type:
+ *                 type: string
+ *                 enum: [email, mobile]
+ *                 description: The medium used for OTP (email or mobile)
+ *     responses:
+ *       200:
+ *         description: OTP verified successfully
+ *       400:
+ *         description: Invalid or expired OTP
+ *       500:
+ *         description: Internal server error
+ */
+router.post('/verify-otp', verifyOtp);
+
 
 /**
  * @swagger
