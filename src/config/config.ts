@@ -27,21 +27,32 @@ const config: Record<Env, {
 }> = {
   development: {
     db: {
-      username: 'sql12771913',
-      password: 'Xw5a8NfQCB',
-      database: 'sql12771913',
-      host: 'sql12.freesqldatabase.com',
+      username: 'gorkhacoin',
+      password: 'Gorkhacoin*&5413',
+      database: 'test_db',
+      host: '88.222.212.197',
       dialect: 'mysql', 
     },
     corsOrigin: '*',
-    swaggerUrl: 'https://sowpay-api.onrender.com/',
+    swaggerUrl: 'http://localhost:8081/',
   },
+  // development: {
+  //   db: {
+  //     username: 'root',
+  //     password: '',
+  //     database: 'sowpay_db',
+  //     host: 'localhost',
+  //     dialect: 'mysql', 
+  //   },
+  //   corsOrigin: '*',
+  //   swaggerUrl: 'http://localhost:8081/',
+  // },
   production: {
     db: {
-      username: 'sql12771913',
-      password: 'Xw5a8NfQCB',
-      database: 'sql12771913',
-      host: 'sql12.freesqldatabase.com',
+      username: 'gorkhacoin',
+      password: 'Gorkhacoin*&5413',
+      database: 'test_db',
+      host: '88.222.212.197',
       dialect: 'mysql', 
     },
     corsOrigin: '*',
