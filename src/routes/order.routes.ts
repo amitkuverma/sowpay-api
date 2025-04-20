@@ -54,7 +54,7 @@ router.post('/', createOrder);
  *       200:
  *         description: List of all orders
  */
-router.get('/', getAllOrders);
+router.get('/orders/', getAllOrders);
 
 /**
  * @swagger
@@ -75,7 +75,7 @@ router.get('/', getAllOrders);
  *       404:
  *         description: Order not found
  */
-router.get('/:id', getOrderById);
+router.get('/orders/:id', getOrderById);
 
 /**
  * @swagger

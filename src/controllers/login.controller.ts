@@ -22,9 +22,10 @@ export const login = async (req: Request, res: Response) => {
     const token = jwt.sign(
       {
         userId: user.userId,
-        userName: user.name,
         status: user.status,
         emailVerified: user.emailVerified,
+        authType: user.type,
+        isShopkeeper: user.isShopkeeper,
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET || 'secret',

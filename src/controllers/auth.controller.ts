@@ -9,7 +9,7 @@ import { generateOtp, sendOtp } from '../utils/otp.utils';
 import { generateUserQRCode } from '../utils/qrcode.utils';
 
 export const register = async (req: Request, res: Response) => {
-  const { email, password, referralCode } = req.body;
+  const { email, password, number, address, type, isShopkeeper, isAdmin, referralCode } = req.body;
 
   try {
     // Validate inputs
@@ -47,11 +47,16 @@ export const register = async (req: Request, res: Response) => {
     const newUser = await User.create({
       email,
       password: hashedPassword,
+      number,
+      address,
       emailVerified: false,
       referralCode: myReferralCode,
       referredBy,
       otp,
       otpExpiry,
+      type,
+      isShopkeeper,
+      isAdmin,
     });
 
     // Send OTP via email

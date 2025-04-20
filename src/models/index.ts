@@ -57,6 +57,7 @@ const modelAssociations = {
   },
 
   Product: {
+    belongsTo: [{ targetModel: 'User', foreignKey: 'userId', as: 'user' }],
     hasMany: [{ targetModel: 'OrderItem', foreignKey: 'productId', as: 'orderItems' }],
   },
 

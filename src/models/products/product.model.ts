@@ -3,13 +3,15 @@ import sequelize from '../../config/database';
 
 interface ProductAttributes {
   id: number;
-  name: string;
+  userId: number;
+  productName: string;
   description?: string;
-  discount?: number;
-  price: number;
-  stock: number;
-  category?: string;
-  imageUrl?: string;
+  productImage?: string;
+  inStock: boolean;
+  discountPrize: number;
+  productCategory: string;
+  productUnit: number;
+  productPrize: number;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -17,13 +19,16 @@ interface ProductAttributes {
 type ProductCreationAttributes = Optional<ProductAttributes, 'id'>;
 
 class Product extends Model<ProductAttributes, ProductCreationAttributes> implements ProductAttributes {
-  public id!: number;
-  public name!: string;
+  public id!: number;  
+  public userId!: number;
+  public productName!: string;
   public description?: string;
-  public price!: number;
-  public stock!: number;
-  public category?: string;
-  public imageUrl?: string;
+  public productImage?: string;
+  public inStock!: boolean;
+  public discountPrize!: number;
+  public productCategory!: string;
+  public productUnit!: number;
+  public productPrize!: number;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -36,7 +41,11 @@ Product.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    name: {
+    userId: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      allowNull: false,
+    },
+    productName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -44,26 +53,30 @@ Product.init(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    discount: {
-      type: DataTypes.INTEGER,
+    productImage: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
-    price: {
-      type: DataTypes.FLOAT,
+    inStock: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
     },
-    stock: {
-      type: DataTypes.INTEGER.UNSIGNED,
+    discountPrize: {
+      type: DataTypes.FLOAT,
       allowNull: false,
       defaultValue: 0,
     },
-    category: {
+    productCategory: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    imageUrl: {
-      type: DataTypes.STRING,
-      allowNull: true,
+    productUnit: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    productPrize: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
     },
   },
   {
@@ -74,3 +87,4 @@ Product.init(
 );
 
 export default Product;
+

@@ -5,12 +5,14 @@ import User from './user.model'; // Ensure the import path is correct
 interface BasicDetailsAttributes {
   id: number;
   userId: number;
+  username: string;
   village: string;
   city: string;
   district: string;
   state: string;
   shopname: string;
   category: string;
+  smp: string;
   gst_number: string;
   pincode: string;
   address: string;
@@ -26,12 +28,14 @@ type BasicDetailsCreationAttributes = Optional<BasicDetailsAttributes, 'id'>;
 class BasicDetails extends Model<BasicDetailsAttributes, BasicDetailsCreationAttributes> implements BasicDetailsAttributes {
   public id!: number;
   public userId!: number;
+  public username!: string;
   public village!: string;
   public city!: string;
   public district!: string;
   public state!: string;
   public shopname!: string;
   public category!: string;
+  public smp!: string;
   public gst_number!: string;
   public pincode!: string;
   public address!: string;
@@ -54,12 +58,14 @@ BasicDetails.init(
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false,
     },
+    username: DataTypes.STRING,
     village: DataTypes.STRING,
     city: DataTypes.STRING,
     district: DataTypes.STRING,
     state: DataTypes.STRING,
     shopname: DataTypes.STRING,
     category: DataTypes.STRING,
+    smp: DataTypes.STRING,
     gst_number: DataTypes.STRING,
     pincode: DataTypes.STRING,
     address: DataTypes.STRING,

@@ -3,6 +3,7 @@ import {
   createProduct,
   getAllProducts,
   getProductById,
+  getProductsByUserId,
   updateProduct,
   deleteProduct
 } from '../controllers/orders/product.controller';
@@ -39,6 +40,26 @@ router.get('/products', getAllProducts);
  *         description: Product not found
  */
 router.get('/products/:id', getProductById);
+
+/**
+ * @swagger
+ * /api/products/user/{userId}:
+ *   get:
+ *     summary: Get all products by user ID
+ *     tags: [Products]
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         required: true
+ *         description: User ID
+ *     responses:
+ *       200:
+ *         description: Products fetched successfully
+ *       404:
+ *         description: No products found
+ */
+router.get('/products/user/:userId', getProductsByUserId);
+
 
 /**
  * @swagger

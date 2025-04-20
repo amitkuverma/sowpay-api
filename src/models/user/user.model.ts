@@ -5,14 +5,14 @@ class User extends Model {
   public userId!: number;
   public name!: string;
   public email!: string;
-  public mobile!: string;
+  public number!: string;
   public password!: string;
   public referredBy!: string;
   public shop_front_url?: string;
   public shop_counter_url?: string;
   public other_img_url?: string;
-  public docname?: string;
-  public docpath?: string;
+  public address?: string;
+  public type?: string;
   public referralCode?: string; // Optional field
   public parentUserId?: number | null; // Optional foreign key reference
   public otp?: string; // Optional OTP field
@@ -40,7 +40,7 @@ User.init({
     allowNull: false,
     unique: true,
   },
-  mobile: {
+  number: {
     type: DataTypes.STRING,
     allowNull: true,
     unique: true,
@@ -77,11 +77,11 @@ User.init({
     type: DataTypes.STRING,
     allowNull: true,
   },
-  docname: {
+  address: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  docpath: {
+  type: {
     type: DataTypes.STRING,
     allowNull: true,
   },
