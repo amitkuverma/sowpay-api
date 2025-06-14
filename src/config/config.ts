@@ -27,36 +27,25 @@ const config: Record<Env, {
 }> = {
   development: {
     db: {
-      username: 'gorkhacoin',
-      password: 'Gorkhacoin*&5413',
-      database: 'test_db',
-      host: '88.222.212.197',
+      username: 'root',
+      password: '',
+      database: 'sowpay_db',
+      host: 'localhost',
       dialect: 'mysql', 
     },
     corsOrigin: '*',
     swaggerUrl: 'http://localhost:8081/',
   },
-  // development: {
-  //   db: {
-  //     username: 'root',
-  //     password: '',
-  //     database: 'sowpay_db',
-  //     host: 'localhost',
-  //     dialect: 'mysql', 
-  //   },
-  //   corsOrigin: '*',
-  //   swaggerUrl: 'http://localhost:8081/',
-  // },
   production: {
-    db: {
-      username: 'gorkhacoin',
-      password: 'Gorkhacoin*&5413',
-      database: 'test_db',
-      host: '88.222.212.197',
-      dialect: 'mysql', 
+     db: {
+      username: getEnvVar('DB_USER'),   
+      password: getEnvVar('DB_PASSWORD'),
+      database: getEnvVar('DB_NAME'),   
+      host: getEnvVar('DB_HOST'),       
+      dialect: getEnvVar('DB_DIALECT'), 
     },
     corsOrigin: '*',
-    swaggerUrl: 'https://sowpay-api.onrender.com/',
+    swaggerUrl: getEnvVar('SWAGGER_URL'),
   },
 };
 
