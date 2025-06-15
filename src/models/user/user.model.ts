@@ -13,7 +13,6 @@ class User extends Model {
   public other_img_url?: string;
   public address?: string;
   public type?: string;
-  public referralCode?: string; // Optional field
   public parentUserId?: number | null; // Optional foreign key reference
   public otp?: string; // Optional OTP field
   public otpExpiry?: Date; // Optional OTP fieldx 
@@ -98,11 +97,6 @@ User.init({
     },
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
-  },
-  referralCode: {
-    type: DataTypes.STRING,
-    allowNull: true,
-    unique: true,
   },
   status: {
     type: DataTypes.STRING,

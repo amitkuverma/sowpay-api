@@ -1,80 +1,68 @@
 import { Request, Response } from 'express';
-import AuthService from '../services/auth.service';
-import { OAuth2Client } from 'google-auth-library';
-import jwt from 'jsonwebtoken';
-import jwksClient from 'jwks-rsa';
-import User from '../models/user/user.model';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { OAuth2Client } from 'google-auth-library';
+import jwksClient from 'jwks-rsa';
+
+import User from '../models/user/user.model'; // Use this one consistently
 import { generateOtp, sendOtp } from '../utils/otp.utils';
 import { generateUserQRCode } from '../utils/qrcode.utils';
 
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+const appleClient = jwksClient({ jwksUri: 'https://appleid.apple.com/auth/keys' });
+
+// === REGISTER ===
 export const register = async (req: Request, res: Response) => {
-  const { email, password, number, address, type, isShopkeeper, isAdmin, referralCode } = req.body;
+  const {
+    name,
+    email,
+    password,
+    number,
+    address,
+    type,
+    isShopkeeper,
+    isAdmin
+  } = req.body;
 
   try {
-    // Validate inputs
-    if ( !email || !password) {
-      return res.status(400).json({ message: 'All fields are required' });
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({ where: { email } });
     if (existingUser) {
       return res.status(409).json({ message: 'Email already registered' });
     }
 
-    // Handle referral logic
-    let referredBy = null;
-    if (referralCode) {
-      const referrer = await User.findOne({ where: { referralCode } });
-      if (!referrer) {
-        return res.status(400).json({ message: 'Invalid referral code' });
-      }
-      referredBy = referrer.userId;
-    }
-
-    // Generate email OTP
     const otp = generateOtp();
-    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 mins expiry
-
-    // Hash password
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Generate user’s referral code (e.g. based on timestamp + random string)
-    const myReferralCode = `REF${Date.now().toString().slice(-6)}`;
-
-    // Save user
     const newUser = await User.create({
+      name,
       email,
       password: hashedPassword,
       number,
       address,
       emailVerified: false,
-      referralCode: myReferralCode,
-      referredBy,
       otp,
       otpExpiry,
       type,
       isShopkeeper,
-      isAdmin,
+      isAdmin
     });
 
-    // Send OTP via email
     await sendOtp(email, otp);
 
     return res.status(201).json({
       message: 'Registration successful. Please verify your email via OTP.',
-      userId: newUser.userId,
+      userId: newUser.userId
     });
   } catch (error) {
     console.error('Registration error:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
-
-
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-const appleClient = jwksClient({ jwksUri: 'https://appleid.apple.com/auth/keys' });
 
 // === GOOGLE LOGIN ===
 export const googleAuth = async (req: Request, res: Response) => {
@@ -87,7 +75,6 @@ export const googleAuth = async (req: Request, res: Response) => {
     });
 
     const payload = ticket.getPayload();
-
     if (!payload?.email) {
       return res.status(400).json({ error: 'Invalid Google token' });
     }
@@ -139,6 +126,7 @@ export const appleAuth = async (req: Request, res: Response) => {
   });
 };
 
+// === GENERATE USER QR CODE ===
 export const getUserQrCode = async (req: Request, res: Response) => {
   const { name, email, phone } = req.body;
 
@@ -147,7 +135,7 @@ export const getUserQrCode = async (req: Request, res: Response) => {
 
     res.json({
       message: 'QR Code generated successfully',
-      qrCode, // This will be a base64 image
+      qrCode, // base64 image
     });
   } catch (error) {
     res.status(500).json({ message: 'Failed to generate QR Code' });
