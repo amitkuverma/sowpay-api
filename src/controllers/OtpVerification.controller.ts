@@ -32,18 +32,17 @@ export const verifyOtp = async (req: Request, res: Response) => {
     const { userId, otp } = req.body;
 
     const user: any = await User.findOne({
-      where: { userId, otp, verified: false }
+      where: { userId, otp, emailVerified: false }
     });
 
     if (!user) {
       return res.status(400).json({ message: 'Invalid or expired OTP' });
     }
 
-    user.verified = true;
     user.emailVerified = true;
     await user.save();
 
-    return res.status(200).json({ message: 'OTP verified, email confirmed' });
+    return res.status(200).json({ message: 'OTP verified, email confirmed', userId: user.userId });
   } catch (error) {
     console.error('Error verifying OTP:', error);
     return res.status(500).json({ message: 'Server error verifying OTP' });

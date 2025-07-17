@@ -29,6 +29,9 @@ const modelAssociations = {
       { targetModel: 'Order', foreignKey: 'userId', as: 'orders' },
       { targetModel: 'Notification', foreignKey: 'userId', as: 'notifications' },
     ],
+    hasOne: [
+      { targetModel: 'BasicDetails', foreignKey: 'userId', as: 'details' }, // ✅ Required for join
+    ],
   },
 
   Payment: {

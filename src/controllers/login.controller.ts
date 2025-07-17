@@ -19,12 +19,16 @@ export const login = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
+    if (!user.emailVerified) {
+      return res.status(401).json({ message: 'Email not verified' });
+    }
+
     const token = jwt.sign(
       {
         userId: user.userId,
         status: user.status,
         emailVerified: user.emailVerified,
-        authType: user.type,
+        userRole: user.userRole,
         isShopkeeper: user.isShopkeeper,
         isAdmin: user.isAdmin,
       },
@@ -32,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: '8h' }
     );
 
-    return res.json({ message: 'Login successful', token });
+    return res.json({ message: 'Login successful', token, userRole: user.userRole, userId: user.userId });
   } catch (error) {
     console.error('Login error:', error);
     return res.status(500).json({ message: 'Internal server error' });

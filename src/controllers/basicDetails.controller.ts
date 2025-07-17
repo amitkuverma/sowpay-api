@@ -1,11 +1,13 @@
 // controllers/basicDetails.controller.ts
 import { Request, Response } from 'express';
 import BasicDetails from '../models/user/user_details.model';
+import User from '../models/user/user.model';
+import { Op } from "sequelize";
 import { generateUserQRCode } from '../utils/qrcode.utils';
 
 export const createBasicDetails = async (req: Request, res: Response) => {
   try {
-    
+
     const qrCode = await generateUserQRCode(req.body);
     req.body.qrCode = qrCode; // Add the QR code to the request body
     const basicDetails = await BasicDetails.create(req.body);
@@ -21,6 +23,52 @@ export const getAllBasicDetails = async (req: Request, res: Response) => {
     res.json(details);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch details' });
+  }
+};
+
+export const getNearbyShops = async (req: Request, res: Response) => {
+  try {
+    const search = req.query.search?.toString() || '';
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await User.findAndCountAll({
+      where: {
+        userRole: 'shopkepper',
+        name: { [Op.like]: `%${search}%` },
+      },
+      include: [
+        {
+          model: BasicDetails,
+          as: 'details', // ✅ must match User.hasOne alias
+          required: false, // use true if you only want users who have BasicDetails
+        },
+      ],
+      limit,
+      offset,
+      order: [['name', 'ASC']],
+    });
+
+    const formatted = rows.map((user: any) => ({
+      name: user.name,
+      userId: user.details?.userId || null,
+      category: user.details?.category || 'N/A',
+      image: user.details?.image || '/default.png',
+      review: user.details?.review || 0,
+      distance: user.details?.distance || 'N/A',
+      path: `/shop/${user.userId}`,
+    }));
+
+    res.json({
+      data: formatted,
+      total: count,
+      page,
+      totalPages: Math.ceil(count / limit),
+    });
+  } catch (err: any) {
+    console.error('❌ Error fetching shops:', err.message);
+    res.status(500).json({ message: 'Failed to load shops', error: err.message });
   }
 };
 

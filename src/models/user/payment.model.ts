@@ -6,6 +6,7 @@ class Payment extends Model {
   public payId!: number;
   public userId!: number;
   public userName!: string;
+  public shopId!: number;
   public earnAmount!: number;
   public totalAmount!: number;
   public paymentMethod!: string;

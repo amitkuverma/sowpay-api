@@ -7,21 +7,24 @@ class User extends Model {
   public email!: string;
   public number!: string;
   public password!: string;
-  public referredBy!: string;
-  public shop_front_url?: string;
-  public shop_counter_url?: string;
-  public other_img_url?: string;
+  public referredBy?: string;
+  public referralCode?: string;
+  public parentUserId?: number | null;
   public address?: string;
-  public type?: string;
-  public parentUserId?: number | null; // Optional foreign key reference
-  public otp?: string; // Optional OTP field
-  public otpExpiry?: Date; // Optional OTP fieldx 
+  public userRole?: string;
+  public otp?: string;
+  public otpExpiry?: Date;
   public emailVerified!: boolean;
   public status!: string;
   public profilePicture?: string;
   public provider!: string;
   public isShopkeeper!: boolean;
   public isAdmin!: boolean;
+  public wallet!: number;
+  public shop_front_url?: string;
+  public shop_counter_url?: string;
+  public other_img_url?: string;
+  public qr_img_url?: string;
 }
 
 User.init({
@@ -30,10 +33,7 @@ User.init({
     primaryKey: true,
     autoIncrement: true,
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+  name: DataTypes.STRING,
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -42,73 +42,42 @@ User.init({
   number: {
     type: DataTypes.STRING,
     allowNull: true,
-    unique: true,
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  referredBy: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  otp: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  otpExpiry: {
-    type: DataTypes.DATE,
-    allowNull: true,
-  },
-  emailVerified: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false,
-  },
-  shop_front_url: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  shop_counter_url: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  other_img_url: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  address: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  type: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
-  qr_img_url: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+  referredBy: DataTypes.STRING,
   parentUserId: {
     type: DataTypes.INTEGER.UNSIGNED,
     allowNull: true,
     references: {
-      model: 'users', // This should refer to the table name, not the model
+      model: 'users',
       key: 'userId',
     },
     onDelete: 'SET NULL',
     onUpdate: 'CASCADE',
   },
+  referralCode: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+  },
+  address: DataTypes.STRING,
+  userRole: DataTypes.STRING,
+  otp: DataTypes.STRING,
+  otpExpiry: DataTypes.DATE,
+  emailVerified: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
   status: {
     type: DataTypes.STRING,
     allowNull: true,
-    defaultValue: "pending" // Fixed typo here
-  },  
-  profilePicture: { 
-    type: DataTypes.STRING 
+    defaultValue: 'pending',
   },
-  provider: { 
-    type: DataTypes.STRING 
-  },
+  profilePicture: DataTypes.STRING,
+  provider: DataTypes.STRING,
   isShopkeeper: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
@@ -117,6 +86,15 @@ User.init({
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  wallet: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+    defaultValue: 0.0,
+  },
+  shop_front_url: DataTypes.STRING,
+  shop_counter_url: DataTypes.STRING,
+  other_img_url: DataTypes.STRING,
+  qr_img_url: DataTypes.STRING,
 }, {
   sequelize,
   modelName: 'User',

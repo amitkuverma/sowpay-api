@@ -11,7 +11,13 @@ import { generateUserQRCode } from '../utils/qrcode.utils';
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 const appleClient = jwksClient({ jwksUri: 'https://appleid.apple.com/auth/keys' });
 
-// === REGISTER ===
+import { v4 as uuidv4 } from 'uuid'; // for unique referral code generation
+
+function generateReferralCode(): string {
+  // You can customize the code (e.g., initials + random string)
+  return 'REF-' + uuidv4().slice(0, 8).toUpperCase();
+}
+
 export const register = async (req: Request, res: Response) => {
   const {
     name,
@@ -20,8 +26,10 @@ export const register = async (req: Request, res: Response) => {
     number,
     address,
     type,
-    isShopkeeper,
-    isAdmin
+    userRole,
+    isShopkeeper = false,
+    isAdmin = false,
+    refferCode
   } = req.body;
 
   try {
@@ -34,9 +42,32 @@ export const register = async (req: Request, res: Response) => {
       return res.status(409).json({ message: 'Email already registered' });
     }
 
+    let parentUserId: number | null = null;
+    let referredBy: string | null = null;
+
+    if (refferCode) {
+      const referrer = await User.findOne({ where: { referralCode: refferCode } });
+      if (referrer) {
+        parentUserId = referrer.userId;
+        referredBy = refferCode;
+      } else {
+        return res.status(400).json({ message: 'Invalid referral code' });
+      }
+    }
+
     const otp = generateOtp();
     const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    let referralCode: string;
+    let isUnique = false;
+
+    // Ensure referralCode is unique
+    do {
+      referralCode = generateReferralCode();
+      const existing = await User.findOne({ where: { referralCode } });
+      if (!existing) isUnique = true;
+    } while (!isUnique);
 
     const newUser = await User.create({
       name,
@@ -47,22 +78,28 @@ export const register = async (req: Request, res: Response) => {
       emailVerified: false,
       otp,
       otpExpiry,
-      type,
+      userRole,
       isShopkeeper,
-      isAdmin
+      isAdmin,
+      parentUserId,
+      referredBy,
+      referralCode,
+      wallet: 0.0
     });
 
     await sendOtp(email, otp);
 
     return res.status(201).json({
       message: 'Registration successful. Please verify your email via OTP.',
-      userId: newUser.userId
+      userId: newUser.userId,
+      referralCode: newUser.referralCode
     });
   } catch (error) {
     console.error('Registration error:', error);
     return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 
 // === GOOGLE LOGIN ===
 export const googleAuth = async (req: Request, res: Response) => {
@@ -77,7 +114,7 @@ export const googleAuth = async (req: Request, res: Response) => {
     const payload = ticket.getPayload();
     if (!payload?.email) {
       return res.status(400).json({ error: 'Invalid Google token' });
-    }
+    ;}
 
     let user = await User.findOne({ where: { email: payload.email } });
 

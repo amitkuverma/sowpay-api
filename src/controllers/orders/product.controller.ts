@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Product from '../../models/products/product.model';
+import { Op } from 'sequelize';
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
@@ -16,6 +17,42 @@ export const getAllProducts = async (_: Request, res: Response) => {
     return res.json(products);
   } catch (error) {
     return res.status(500).json({ message: 'Failed to fetch products', error });
+  }
+};
+
+export const getAllProductsThroughUserId = async (req: Request, res: Response) => {
+  try {
+    const search = (req.query.search || "") as string;
+    const userId = req.query.userId as string;
+
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const offset = (page - 1) * limit;
+
+    const { count, rows } = await Product.findAndCountAll({
+      where: {
+        userId: userId,
+        productName: {
+          [Op.like]: `%${search}%`,
+        },
+      },
+      limit,
+      offset,
+    });
+
+    res.json({
+      data: rows,
+      total: count,
+      totalPages: Math.ceil(count / limit),
+      page,
+    });
+  } catch (error: any) {
+    console.error("Error fetching products:", error.message);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 

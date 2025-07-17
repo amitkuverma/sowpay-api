@@ -5,6 +5,7 @@ import {
   getBasicDetailsByUserId,
   updateBasicDetails,
   deleteBasicDetails,
+  getNearbyShops,
 } from '../controllers/basicDetails.controller';
 
 const router = Router();
@@ -71,6 +72,70 @@ const router = Router();
  *         description: Created successfully
  */
 router.post('/basic-details', createBasicDetails);
+
+/**
+ * @swagger
+ * /api/shops:
+ *   get:
+ *     summary: Get a paginated list of nearby shops
+ *     tags:
+ *       - Shops
+ *     parameters:
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Filter shops by name
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         required: false
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         required: false
+ *         description: Items per page
+ *     responses:
+ *       200:
+ *         description: A list of nearby shops
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       name:
+ *                         type: string
+ *                       category:
+ *                         type: string
+ *                       image:
+ *                         type: string
+ *                       review:
+ *                         type: number
+ *                       distance:
+ *                         type: string
+ *                       path:
+ *                         type: string
+ *                 total:
+ *                   type: integer
+ *                 page:
+ *                   type: integer
+ *                 totalPages:
+ *                   type: integer
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/shops", getNearbyShops); // ✅ use correct controller
 
 /**
  * @swagger

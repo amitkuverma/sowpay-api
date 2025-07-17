@@ -5,7 +5,8 @@ import {
   getProductById,
   getProductsByUserId,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  getAllProductsThroughUserId
 } from '../controllers/orders/product.controller';
 
 const router = Router();
@@ -21,25 +22,63 @@ const router = Router();
  *         description: List of products
  */
 router.get('/products', getAllProducts);
-
 /**
  * @swagger
- * /api/products/{id}:
+ * /api/products/filter:
  *   get:
- *     summary: Get product by ID
+ *     summary: Get products by userId with search and pagination
  *     tags: [Products]
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: query
+ *         name: userId
+ *         schema:
+ *           type: string
  *         required: true
- *         description: Product ID
+ *         description: ID of the user whose products are being fetched
+ *       - in: query
+ *         name: search
+ *         schema:
+ *           type: string
+ *         required: false
+ *         description: Search term for product name
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         required: false
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         required: false
+ *         description: Number of products per page
  *     responses:
  *       200:
- *         description: Product found
- *       404:
- *         description: Product not found
+ *         description: Paginated list of products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Product'
+ *                 total:
+ *                   type: integer
+ *                 totalPages:
+ *                   type: integer
+ *                 page:
+ *                   type: integer
+ *       400:
+ *         description: Missing required userId
+ *       500:
+ *         description: Server error
  */
-router.get('/products/:id', getProductById);
+router.get('/products/filter', getAllProductsThroughUserId);
 
 /**
  * @swagger
