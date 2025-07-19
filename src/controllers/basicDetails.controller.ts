@@ -57,6 +57,10 @@ export const getNearbyShops = async (req: Request, res: Response) => {
       image: user.details?.image || '/default.png',
       review: user.details?.review || 0,
       distance: user.details?.distance || 'N/A',
+      qrCode: user.details?.qrCode || null,
+      address: user.details?.address || 'N/A',
+      latitude: user.details?.latitude || 0,
+      longitude: user.details?.longitude || 0,
       path: `/shop/${user.userId}`,
     }));
 
