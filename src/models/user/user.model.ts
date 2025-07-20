@@ -25,6 +25,9 @@ class User extends Model {
   public shop_counter_url?: string;
   public other_img_url?: string;
   public qr_img_url?: string;
+  public review?: number;
+  public latitude!: string;
+  public longitude!: string;
 }
 
 User.init({
@@ -91,10 +94,17 @@ User.init({
     allowNull: false,
     defaultValue: 0.0,
   },
+  review: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+    defaultValue: 0.0,
+  },
   shop_front_url: DataTypes.STRING,
   shop_counter_url: DataTypes.STRING,
   other_img_url: DataTypes.STRING,
   qr_img_url: DataTypes.STRING,
+  latitude: DataTypes.STRING,
+  longitude: DataTypes.STRING,
 }, {
   sequelize,
   modelName: 'User',
