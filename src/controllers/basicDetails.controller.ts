@@ -52,11 +52,10 @@ export const getNearbyShops = async (req: Request, res: Response) => {
 
     const formatted = rows.map((user: any) => ({
       name: user.name,
-      userId: user.details?.userId || null,
-      category: user.details?.category || 'N/A',
-      image: user.details?.image || '/default.png',
+      userId: user.userId || null,
+      category: user.details?.category || 'Category',
+      shop_front_image: user.shop_front_url || '/assets/images/png/shop/shop-1.png',
       review: user.details?.review || 0,
-      distance: user.details?.distance || 'N/A',
       qrCode: user.details?.qrCode || null,
       address: user.details?.address || 'N/A',
       latitude: user.details?.latitude || 0,
