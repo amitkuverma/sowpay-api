@@ -24,60 +24,53 @@ const upload = multer({ storage }).single('file'); // Ensure you specify 'file' 
 
 // Upload file controller
 const uploadFile = async (req: Request, res: Response) => {
-    // Check for uploaded file
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded.' });
     }
 
-    const { id, type } = req.body; // Get userId and type from the request body
+    const { id, type, columnName } = req.body;
 
-    // Validate userId and type
-    if (!id || !type) {
-        return res.status(400).json({ message: 'User ID and type are required.' });
+    if (!id || !type || !columnName) {
+        return res.status(400).json({ message: 'User ID, type, and column name are required.' });
     }
 
     try {
-        // Prepare updated file details
-
-        let updatedFileDetails = {};
-
-        if (type === 'document') {
-            updatedFileDetails = {
-                docname: req.file.originalname,
-                docpath: req.file.path.replace(/^.*[\\\/]uploads[\\\/]/, 'uploads/'), // Use absolute path for the file
-                docmimetype: req.file.mimetype,
-            };
-        }
-        else {
-            updatedFileDetails = {
-                filename: req.file.originalname,
-                filepath: req.file.path.replace(/^.*[\\\/]uploads[\\\/]/, 'uploads/'), // Use absolute path for the file
-                mimetype: req.file.mimetype,
-            };
-        }
         let record;
 
-        // Find and update the record based on type
+        // Find the corresponding record based on type
         switch (type) {
             case 'user':
-            case 'document':
                 record = await User.findByPk(id);
-                if (!record) return res.status(404).json({ message: 'User record not found.' });
                 break;
             case 'payment':
                 record = await paymentService.findPaymentByUserId(id);
-                if (!record) return res.status(404).json({ message: 'Payment record not found.' });
                 break;
             case 'transaction':
                 record = await Transaction.findByPk(id);
-                if (!record) return res.status(404).json({ message: 'Transaction record not found.' });
                 break;
             default:
                 return res.status(400).json({ message: 'Invalid type provided.' });
         }
 
-        // Update record details
-        Object.assign(record, updatedFileDetails);
+        if (!record) {
+            return res.status(404).json({ message: `${type} record not found.` });
+        }
+
+        // Update the dynamic column with the file path
+        const filePath = req.file.path.replace(/^.*[\\\/]uploads[\\\/]/, 'uploads/');
+
+        // Dynamically assign file details to the given column
+        (record as any)[columnName] = filePath;
+
+
+        // Optionally update additional metadata if needed
+        if ('docname' in record && type === 'document') {
+            record['docname'] = req.file.originalname;
+        } else if ('filename' in record && type === 'profile') {
+            record['filename'] = req.file.originalname;
+            record['mimetype'] = req.file.mimetype;
+        }
+
         await record.save();
 
         return res.status(200).json({
@@ -89,5 +82,6 @@ const uploadFile = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Error updating file details in the database.', error });
     }
 };
+
 
 export { upload, uploadFile };

@@ -25,6 +25,7 @@ class User extends Model {
   public shop_counter_url?: string;
   public other_img_url?: string;
   public qr_img_url?: string;
+  public profile_url?: string;
   public review?: number;
   public latitude!: string;
   public longitude!: string;
@@ -40,12 +41,9 @@ User.init({
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: true, // ✅ Keep this ONLY in the model — no duplicate index definition elsewhere
   },
-  number: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
+  number: DataTypes.STRING,
   password: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -76,7 +74,6 @@ User.init({
   },
   status: {
     type: DataTypes.STRING,
-    allowNull: true,
     defaultValue: 'pending',
   },
   profilePicture: DataTypes.STRING,
@@ -91,18 +88,17 @@ User.init({
   },
   wallet: {
     type: DataTypes.FLOAT,
-    allowNull: false,
     defaultValue: 0.0,
   },
   review: {
     type: DataTypes.FLOAT,
-    allowNull: false,
     defaultValue: 0.0,
   },
   shop_front_url: DataTypes.STRING,
   shop_counter_url: DataTypes.STRING,
   other_img_url: DataTypes.STRING,
   qr_img_url: DataTypes.STRING,
+  profile_url: DataTypes.STRING,
   latitude: DataTypes.STRING,
   longitude: DataTypes.STRING,
 }, {
