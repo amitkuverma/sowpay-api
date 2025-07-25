@@ -59,7 +59,7 @@ export const resendOtp = async (req: Request, res: Response) => {
     await user.update({ otp, otpExpiry });
     await sendOtp(email, otp);
 
-    return res.json({ message: 'OTP resent successfully' });
+    return res.json({userId: user.userId, message: 'OTP sent successfully' });
   } catch (error) {
     console.error('Error resending OTP:', error);
     return res.status(500).json({ message: 'Internal server error' });
