@@ -82,7 +82,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
     await user.update({ otp, otpExpiry });
     await sendOtp(email, otp);
 
-    return res.json({ userId: user.userId, message: 'OTP sent successfully. Check your email.' });
+    return res.json({ user: user.userId, email: user.email, message: 'OTP sent successfully. Check your email.' });
   } catch (error) {
     console.error('Error in forgotPassword:', error);
     return res.status(500).json({ message: 'Internal server error' });
