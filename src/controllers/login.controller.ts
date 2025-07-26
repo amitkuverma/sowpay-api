@@ -59,7 +59,7 @@ export const resendOtp = async (req: Request, res: Response) => {
     await user.update({ otp, otpExpiry });
     await sendOtp(email, otp);
 
-    return res.json({userId: user.userId, message: 'OTP sent successfully' });
+    return res.json({ userId: user.userId, message: 'OTP sent successfully' });
   } catch (error) {
     console.error('Error resending OTP:', error);
     return res.status(500).json({ message: 'Internal server error' });
@@ -135,14 +135,15 @@ export const resetPassword = async (req: Request, res: Response) => {
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
 
     await user.update({
       password: hashedPassword,
-      otp: null,
-      otpExpiry: null,
+      otp: otp,
+      otpExpiry: otpExpiry,
     });
 
-    return res.json({ message: 'Password reset successfully' });
+    return res.json({ success: true, message: 'Password reset successfully' });
   } catch (error) {
     console.error('Error resetting password:', error);
     return res.status(500).json({ message: 'Internal server error' });
