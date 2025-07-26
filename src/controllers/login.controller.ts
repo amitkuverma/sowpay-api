@@ -111,7 +111,7 @@ export const verifyOTP = async (req: Request, res: Response) => {
       otpExpiry: null,
     });
 
-    return res.status(200).json({ message: 'OTP verified successfully' });
+    return res.status(200).json({ email, message: 'OTP verified successfully' });
   } catch (error) {
     console.error('Error verifying OTP:', error);
     return res.status(500).json({ message: 'Internal server error' });
