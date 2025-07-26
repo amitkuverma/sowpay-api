@@ -10,8 +10,7 @@ import {
   forgotPassword,
   login,
   resendOtp,
-  resetPassword,
-  verifyOTP
+  resetPassword
 } from '../controllers/login.controller';
 
 import UserController from '../controllers/user.controller';

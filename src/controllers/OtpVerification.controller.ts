@@ -32,7 +32,7 @@ export const verifyOtp = async (req: Request, res: Response) => {
     const { userId, otp } = req.body;
 
     const user: any = await User.findOne({
-      where: { userId, otp, emailVerified: false }
+      where: { userId, otp }
     });
 
     if (!user) {
