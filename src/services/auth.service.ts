@@ -17,7 +17,7 @@ class AuthService {
     await user.save();
 
     // Send reset email
-    const resetLink = `https://gorkhacoin.com/reset-password?token=${resetToken}&id=${user.userId}`;
+    const resetLink = `https://sowpaymart.com/reset-password?token=${resetToken}&id=${user.userId}`;
     await sendEmail({
       to: email,
       subject: 'Password Reset Request',

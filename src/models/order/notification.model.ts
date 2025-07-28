@@ -5,6 +5,10 @@ interface NotificationAttributes {
   id: number;
   userId: number;
   message: string;
+  earnUserId: number;
+  earnUserName: string;
+  earnCoin: number;
+  earnType: string;
   status: string;
   createdAt?: Date;
 }
@@ -15,6 +19,10 @@ class Notification extends Model<NotificationAttributes, NotificationCreationAtt
   public id!: number;
   public userId!: number;
   public message!: string;
+  public earnUserId!: number;
+  public earnUserName!: string;
+  public earnCoin!: number;
+  public earnType!: string;
   public status!: string;
 
   public readonly createdAt!: Date;
@@ -34,6 +42,19 @@ Notification.init(
     message: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    earnUserId: {
+      type: DataTypes.INTEGER,
+    },
+    earnUserName: {
+      type: DataTypes.STRING,
+    },
+    earnCoin: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0.0,
+    },
+    earnType: {
+      type: DataTypes.STRING,
     },
     status: {
       type: DataTypes.STRING,
