@@ -11,6 +11,7 @@ class Payment extends Model {
   public totalAmount!: number;
   public paymentMethod!: string;
   public transactionId!: string;
+  public rating!: number;
   public status!: string;
   public filename?: string;
   public filepath?: string;
@@ -42,6 +43,10 @@ Payment.init({
     allowNull: false,
   },
   totalAmount: {
+    type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  rating: {
     type: DataTypes.FLOAT,
     allowNull: false,
   },

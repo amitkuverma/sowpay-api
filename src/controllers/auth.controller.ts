@@ -85,7 +85,9 @@ export const register = async (req: Request, res: Response) => {
       referredBy,
       referralCode,
       wallet: 0.0,
-      wallet2: 0.0
+      wallet2: 0.0,
+      recharge:0.0,
+      shop_front_url: '',
     });
 
     await sendOtp(email, otp);

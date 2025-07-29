@@ -28,8 +28,9 @@ class PaymentService {
     totalAmount: number;
     paymentMethod: string;
     transactionId: string;
+    rating: number;
     status: string;
-    receipt?: string;
+    filepath?: string;
   }) {
     return await Payment.create(data);
   }

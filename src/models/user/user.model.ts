@@ -22,6 +22,7 @@ class User extends Model {
   public isAdmin!: boolean;
   public wallet!: number;
   public wallet2!: number;
+  public recharge!: number;
   public shop_front_url?: string;
   public shop_counter_url?: string;
   public other_img_url?: string;
@@ -92,6 +93,10 @@ User.init({
     defaultValue: 0.0,
   },
   wallet2: {
+    type: DataTypes.FLOAT,
+    defaultValue: 0.0,
+  },
+  recharge: {
     type: DataTypes.FLOAT,
     defaultValue: 0.0,
   },
