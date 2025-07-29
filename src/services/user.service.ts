@@ -15,7 +15,7 @@ export default class UserService {
   // Fetch all users with specific fields
   static async getAllUsers() {
     return await User.findAll({
-      attributes: [`userId`, `name`, `email`, `number`, `emailVerified`, `wallet`, `wallet2`, `recharge`, `shop_front_url`, `shop_counter_url`, `other_img_url`, `address`, `userRole`, `qr_img_url`, `referralCode`, `status`, `profilePicture`, `provider`, `isShopkeeper`, `isAdmin`],
+      attributes: [`userId`, `name`, `email`, `number`, `emailVerified`, `wallet`, `wallet1`, `wallet2`, `recharge`, `shop_front_url`, `shop_counter_url`, `other_img_url`, `address`, `userRole`, `qr_img_url`, `referralCode`, `status`, `profilePicture`, `provider`, `isShopkeeper`, `isAdmin`],
     });
   }
 
