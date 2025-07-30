@@ -54,7 +54,7 @@ Product.init(
       allowNull: true,
     },
     productImage: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('long'), // use 'long' for large base64 strings
       allowNull: true,
     },
     inStock: {
