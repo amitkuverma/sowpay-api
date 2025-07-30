@@ -122,6 +122,8 @@ router.post('/basic-details', createBasicDetails);
  *                         type: string
  *                       review:
  *                         type: number
+ *                       reviewCount:
+ *                         type: number
  *                       distance:
  *                         type: string
  *                       path:

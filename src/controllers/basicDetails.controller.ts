@@ -59,6 +59,7 @@ export const getNearbyShops = async (req: Request, res: Response) => {
       other_img_url: user.other_img_url || null,
       profile_url: user.profile_url || null,
       review: user.review || 0,
+      reviewCount: user.reviewCount || 0,
       qrCode: user.details?.qrCode || null,
       address: user.details?.address || 'N/A',
       latitude: user.details?.latitude || 0,

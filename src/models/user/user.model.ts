@@ -30,6 +30,7 @@ class User extends Model {
   public qr_img_url?: string;
   public profile_url?: string;
   public review?: number;
+  public reviewCount?: number;
   public latitude!: string;
   public longitude!: string;
 }
@@ -108,6 +109,10 @@ User.init({
   review: {
     type: DataTypes.FLOAT,
     defaultValue: 0.0,
+  },
+  reviewCount : {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
   },
   shop_front_url: DataTypes.STRING,
   shop_counter_url: DataTypes.STRING,
