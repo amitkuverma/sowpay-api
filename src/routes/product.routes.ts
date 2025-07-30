@@ -82,6 +82,35 @@ router.get('/products/filter', getAllProductsThroughUserId);
 
 /**
  * @swagger
+ * /api/products/{id}:
+ *   get:
+ *     summary: Get a product by ID
+ *     description: Retrieve a single product's details by its ID.
+ *     tags:
+ *       - Products
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ID of the product to retrieve
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Product found successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       404:
+ *         description: Product not found
+ *       500:
+ *         description: Server error
+ */
+router.get("/product/:id", getProductById);
+
+/**
+ * @swagger
  * /api/products/user/{userId}:
  *   get:
  *     summary: Get all products by user ID
