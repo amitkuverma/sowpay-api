@@ -64,6 +64,7 @@ export const getNearbyShops = async (req: Request, res: Response) => {
       latitude: user.details?.latitude || 0,
       longitude: user.details?.longitude || 0,
       path: `/shop/${user.userId}`,
+      smp:user.details?.smp || null,
     }));
 
     res.json({
