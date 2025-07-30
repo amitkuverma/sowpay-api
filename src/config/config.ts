@@ -14,13 +14,14 @@ function getEnvVar(key: string): string {
   return value;
 }
 
+// Define config for both environments
 const config: Record<Env, {
   db: {
     username: string;
     password: string;
     database: string;
     host: string;
-    dialect: string;
+    dialect: 'mysql';
   };
   corsOrigin: string;
   swaggerUrl: string;
@@ -31,24 +32,29 @@ const config: Record<Env, {
       password: '',
       database: 'sowpay_db',
       host: 'localhost',
-      dialect: 'mysql', 
+      dialect: 'mysql',
     },
     corsOrigin: '*',
     swaggerUrl: 'http://localhost:8081/',
   },
   production: {
-     db: {
-      username: getEnvVar('DB_USER'),   
+    db: {
+      username: getEnvVar('DB_USER'),
       password: getEnvVar('DB_PASSWORD'),
-      database: getEnvVar('DB_NAME'),   
-      host: getEnvVar('DB_HOST'),       
-      dialect: getEnvVar('DB_DIALECT'), 
+      database: getEnvVar('DB_NAME'),
+      host: getEnvVar('DB_HOST'),
+      dialect: 'mysql', // Keep as constant since you're using MySQL
     },
     corsOrigin: '*',
     swaggerUrl: getEnvVar('SWAGGER_URL'),
   },
 };
 
-
+// Determine current environment
 const currentEnv: Env = (process.env.NODE_ENV as Env) || 'production';
+
+// ✅ Optional: Debug logs for validation
+console.log('Using environment:', currentEnv);
+console.log('Database Host:', config[currentEnv].db.host);
+
 export default config[currentEnv];
