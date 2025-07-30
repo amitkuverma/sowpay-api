@@ -19,6 +19,9 @@ const app: Application = express();
 app.use(bodyParser.json());
 app.use(corsMiddleware);
 
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ extended: true, limit: "25mb" }));
+
 // Routes
 app.use('/api', userRoutes, paymentRouter, transRouter, fileRouter, orderRouter, detailsRouter, productRouter, basicRouter);
 app.use('/auth', authRouter);
