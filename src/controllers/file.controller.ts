@@ -5,6 +5,8 @@ import path from 'path';
 import User from '../models/user/user.model';
 import Transaction from '../models/user/transaction.model';
 import paymentService from '../services/payment.service';
+import { getProductsByUserId } from './orders/product.controller';
+import Product from '../models/products/product.model';
 
 const uploadsPath = path.join(__dirname, '../uploads');
 if (!fs.existsSync(uploadsPath)) {
@@ -44,6 +46,9 @@ const uploadFile = async (req: Request, res: Response) => {
                 break;
             case 'payment':
                 record = await paymentService.findPaymentByUserId(id);
+                break;
+            case 'product':
+                record = await Product.findOne({ where: { userId:id } });;
                 break;
             case 'transaction':
                 record = await Transaction.findByPk(id);
