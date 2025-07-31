@@ -10,8 +10,8 @@ export default class UserController {
   }
 
   static async createUser(req: Request, res: Response) {
-    const { name, email, mobile, password } = req.body; // Exclude referralUrl from body
-    const referralCode: any = req.params.referralCode || null; // Get referralCode from request parameters
+    const { name, email, mobile, password, referralCode } = req.body; // Exclude referralUrl from body
+    // const referralCode: any = req.params.referralCode || null; // Get referralCode from request parameters
 
     try {
       const newUser = await UserService.createUser({ name, email, mobile, password, referralCode });
