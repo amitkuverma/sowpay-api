@@ -29,20 +29,20 @@ export const getAllBasicDetails = async (req: Request, res: Response) => {
 export const getNearbyShops = async (req: Request, res: Response) => {
   try {
     const search = req.query.search?.toString() || '';
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
+    const page = parseInt(req.query.page as string, 10) || 1;
+    const limit = parseInt(req.query.limit as string, 10) || 10;
     const offset = (page - 1) * limit;
 
     const { count, rows } = await User.findAndCountAll({
       where: {
-        userRole: 'shopkepper',
+        userRole: 'shopkeeper', // ✅ fixed typo: shopkepper ➝ shopkeeper
         name: { [Op.like]: `%${search}%` },
       },
       include: [
         {
           model: BasicDetails,
-          as: 'details', // ✅ must match User.hasOne alias
-          required: false, // use true if you only want users who have BasicDetails
+          as: 'details', // ✅ Ensure this matches association alias
+          required: false,
         },
       ],
       limit,
@@ -51,21 +51,25 @@ export const getNearbyShops = async (req: Request, res: Response) => {
     });
 
     const formatted = rows.map((user: any) => ({
-      name: user.name,
-      userId: user.userId || null,
-      category: user.details?.category || 'Category',
-      shop_front_image: user.shop_front_url || null,
-      shop_counter_url: user.shop_front_url || null,
-      other_img_url: user.other_img_url || null,
-      profile_url: user.profile_url || null,
-      review: user.review || 0,
-      reviewCount: user.reviewCount || 0,
-      qrCode: user.details?.qrCode || null,
-      address: user.details?.address || 'N/A',
-      latitude: user.details?.latitude || 0,
-      longitude: user.details?.longitude || 0,
-      path: `/shop/${user.userId}`,
-      smp:user.details?.smp || null,
+      name: user?.name || '',
+      userId: user?.userId || null,
+      category: user?.details?.category || 'N/A',
+      shop_front_image: user?.shop_front_url || null,
+      shop_counter_url: user?.shop_counter_url || null, // ✅ fixed: was same as shop_front_url
+      other_img_url: user?.other_img_url || null,
+      profile_url: user?.profile_url || null,
+      review: user?.review || 0,
+      reviewCount: user?.reviewCount || 0,
+      qrCode: user?.details?.qrCode || null,
+      village: user?.details?.village || 'N/A',
+      city: user?.details?.city || 'N/A',
+      district: user?.details?.district || 'N/A',
+      state: user?.details?.state || 'N/A',
+      address: user?.address || 'N/A',
+      latitude: user?.details?.latitude || 0,
+      longitude: user?.details?.longitude || 0,
+      path: `/shop/${user?.userId}`,
+      smp: user?.details?.smp || null,
     }));
 
     res.json({
@@ -76,7 +80,7 @@ export const getNearbyShops = async (req: Request, res: Response) => {
     });
   } catch (err: any) {
     console.error('❌ Error fetching shops:', err.message);
-    res.status(500).json({ message: 'Failed to load shops', error: err.message });
+    res.status(500).json({ message: 'Failed to load shops', error: err.message }); // ✅ fixed: err. Message ➝ err.message
   }
 };
 

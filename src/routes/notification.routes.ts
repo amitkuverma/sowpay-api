@@ -1,7 +1,7 @@
-import { Router } from 'express';
+import express from 'express';
 import NotificationController from '../controllers/notification.controller';
 
-const router = Router();
+const notificationRouter = express.Router();
 
 /**
  * @swagger
@@ -54,7 +54,7 @@ const router = Router();
  *       500:
  *         description: Server error
  */
-router.post('/', NotificationController.create);
+notificationRouter.post('/notifications', NotificationController.create);
 
 /**
  * @swagger
@@ -75,7 +75,7 @@ router.post('/', NotificationController.create);
  *       500:
  *         description: Server error
  */
-router.get('/', NotificationController.getAll);
+notificationRouter.get('/notifications', NotificationController.getAll);
 
 /**
  * @swagger
@@ -98,7 +98,7 @@ router.get('/', NotificationController.getAll);
  *       500:
  *         description: Server error
  */
-router.get('/:id', NotificationController.getById);
+notificationRouter.get('/notifications/:id', NotificationController.getById);
 
 /**
  * @swagger
@@ -143,7 +143,7 @@ router.get('/:id', NotificationController.getById);
  *       500:
  *         description: Server error
  */
-router.put('/:id', NotificationController.update);
+notificationRouter.put('/notifications/:id', NotificationController.update);
 
 /**
  * @swagger
@@ -166,6 +166,6 @@ router.put('/:id', NotificationController.update);
  *       500:
  *         description: Server error
  */
-router.delete('/:id', NotificationController.delete);
+notificationRouter.delete('/notifications/:id', NotificationController.delete);
 
-export default router;
+export default notificationRouter;

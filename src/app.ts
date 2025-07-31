@@ -11,6 +11,7 @@ import authRouter from './routes/auth.routes';
 import detailsRouter from './routes/auth.routes';
 import productRouter from './routes/product.routes';
 import basicRouter from './routes/basicDetails.routes';
+import notificationRouter from './routes/notification.routes';
 import path from 'path';
 
 const app: Application = express();
@@ -23,7 +24,7 @@ app.use(express.json({ limit: "25mb" }));
 app.use(express.urlencoded({ extended: true, limit: "25mb" }));
 
 // Routes
-app.use('/api', userRoutes, paymentRouter, transRouter, fileRouter, orderRouter, detailsRouter, productRouter, basicRouter);
+app.use('/api', userRoutes, paymentRouter, transRouter, fileRouter, orderRouter, detailsRouter, productRouter, basicRouter, notificationRouter);
 app.use('/auth', authRouter);
 app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
