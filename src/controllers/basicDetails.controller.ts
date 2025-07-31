@@ -35,7 +35,7 @@ export const getNearbyShops = async (req: Request, res: Response) => {
 
     const { count, rows } = await User.findAndCountAll({
       where: {
-        userRole: 'shopkeeper', // ✅ fixed typo: shopkepper ➝ shopkeeper
+        userRole: 'shopkepper', // ✅ fixed typo: shopkepper ➝ shopkeeper
         name: { [Op.like]: `%${search}%` },
       },
       include: [
