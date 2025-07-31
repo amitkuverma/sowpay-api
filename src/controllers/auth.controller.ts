@@ -19,19 +19,8 @@ function generateReferralCode(): string {
 }
 
 export const register = async (req: Request, res: Response) => {
-  const {
-    name,
-    email,
-    password,
-    number,
-    address,
-    type,
-    userRole,
-    isShopkeeper = false,
-    isAdmin = false,
-    refferCode
-  } = req.body;
-
+  const { name, email, password, number, address, type, userRole, isShopkeeper = false, isAdmin = false, referralCode } = req.body;
+  const refferCode = referralCode;
   try {
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
@@ -87,7 +76,7 @@ export const register = async (req: Request, res: Response) => {
       wallet: 0.0,
       wallet1: 0.0,
       wallet2: 0.0,
-      recharge:0.0,
+      recharge: 0.0,
       shop_front_url: '',
     });
 
@@ -118,7 +107,8 @@ export const googleAuth = async (req: Request, res: Response) => {
     const payload = ticket.getPayload();
     if (!payload?.email) {
       return res.status(400).json({ error: 'Invalid Google token' });
-    ;}
+      ;
+    }
 
     let user = await User.findOne({ where: { email: payload.email } });
 

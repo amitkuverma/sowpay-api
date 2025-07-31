@@ -14,7 +14,10 @@ export default class UserController {
     // const referralCode: any = req.params.referralCode || null; // Get referralCode from request parameters
 
     try {
+      console.log(req.body)
+      console.log(referralCode)
       const newUser = await UserService.createUser({ name, email, mobile, password, referralCode });
+      console.log(newUser)
       res.status(201).json(newUser);
     } catch (error: any) {
       res.status(400).json({ message: error.message });
