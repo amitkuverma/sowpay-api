@@ -79,7 +79,7 @@ router.get('/orders/:id', getOrderById);
 
 /**
  * @swagger
- * /api/notifications:
+ * /api/email-notifications:
  *   post:
  *     summary: Send notification to a user
  *     tags: [Notifications]
@@ -101,6 +101,6 @@ router.get('/orders/:id', getOrderById);
  *       200:
  *         description: Notification sent
  */
-router.post('/notifications', notifyUser);
+router.post('/email-notifications', notifyUser);
 
 export default router;
