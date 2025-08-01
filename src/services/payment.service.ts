@@ -28,9 +28,12 @@ class PaymentService {
     totalAmount: number;
     paymentMethod: string;
     transactionId: string;
+    shopId: number;
+    shopName: string;
     rating: number;
     status: string;
     filepath?: string;
+    mimetype?: string;
   }) {
     return await Payment.create(data);
   }

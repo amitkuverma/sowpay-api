@@ -7,6 +7,7 @@ class Payment extends Model {
   public userId!: number;
   public userName!: string;
   public shopId!: number;
+  public shopName?: string;
   public earnAmount!: number;
   public totalAmount!: number;
   public paymentMethod!: string;
@@ -40,6 +41,14 @@ Payment.init({
   },
   earnAmount: {
     type: DataTypes.FLOAT,
+    allowNull: false,
+  },
+  shopId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  shopName: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   totalAmount: {

@@ -5,7 +5,8 @@ class PaymentController {
   // Create a new payment
   async createPayment(req: Request, res: Response) {
     try {
-      const { userId, userName, earnAmount, totalAmount, paymentMethod, transactionId, rating, status, filepath } = req.body;
+      const { userId, userName, earnAmount, totalAmount, paymentMethod, transactionId, shopId,
+        shopName, rating, status, filepath, mimetype } = req.body;
 
       // Create new payment
       const newPayment = await PaymentService.createPayment({
@@ -15,9 +16,12 @@ class PaymentController {
         totalAmount,
         paymentMethod,
         transactionId,
+        shopId,
+        shopName,
         rating, // Default rating
         status,
-        filepath
+        filepath,
+        mimetype
       });
 
       return res.status(201).json({
