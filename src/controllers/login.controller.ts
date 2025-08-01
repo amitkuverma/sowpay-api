@@ -36,7 +36,7 @@ export const login = async (req: Request, res: Response) => {
       { expiresIn: '8h' }
     );
 
-    return res.json({ message: 'Login successful', token, userRole: user.userRole, userId: user.userId });
+    return res.json({ message: 'Login successful', success: "Ok", token, userRole: user.userRole, userId: user.userId, status: user.status });
   } catch (error) {
     console.error('Login error:', error);
     return res.status(500).json({ message: 'Internal server error' });
