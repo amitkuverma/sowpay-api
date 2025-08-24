@@ -348,12 +348,12 @@ export default class UserService {
     }
 
     for (const user of usersList) {
-      if (user.userRole === 'customer' && user.wallet1 > 0) {
+      if (user.userRole === 'customer' && user.wallet > 0) {
         // Calculate deduction first
-        const deduction = user.wallet1 * (smp / 100);
+        const deduction = user.wallet * (smp / 100);
 
         // Deduct from wallet1
-        user.wallet1 -= deduction;
+        user.wallet -= deduction;
 
         // Add to wallet2
         user.wallet2 += deduction;
