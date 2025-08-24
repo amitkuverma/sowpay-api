@@ -223,4 +223,44 @@ router.put('/users/:userId', UserController.updateUser);
 // API to get all the referrals made by a user
 router.delete('/delete/:userId', authenticateToken, UserController.deleteUserProfile);
 
+/**
+ * @swagger
+ * /update-smp/{smp}:
+ *   get:
+ *     summary: Deduct wallet1 and add to wallet2 for all customers
+ *     description: Updates all users' wallets by deducting from wallet1 and adding to wallet2 based on the SMP percentage provided.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: smp
+ *         schema:
+ *           type: number
+ *         required: true
+ *         description: SMP percentage to apply on wallet1.
+ *     responses:
+ *       200:
+ *         description: Wallets updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: OK
+ *                 message:
+ *                   type: string
+ *                   example: User SMP updated successfully
+ *       400:
+ *         description: Invalid SMP value
+ *       401:
+ *         description: Unauthorized (invalid or missing token)
+ *       500:
+ *         description: Server error while updating users
+ */
+
+router.get('/update-smp/:smp', authenticateToken, UserController.updateUserOpenWallet);
+
+
 export default router;

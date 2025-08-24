@@ -189,4 +189,20 @@ export default class UserController {
     }
   }
 
+  static async updateUserOpenWallet(req: Request, res: Response) {
+    try {
+      const { smp } = req.params; // smp percentage from request params
+
+      if (!smp || isNaN(Number(smp))) {
+        return res.status(400).json({ message: "Invalid SMP value" });
+      }
+
+      const result = await UserService.updateAllUserSMP(Number(smp));
+
+      return res.status(200).json(result);
+    } catch (error: any) {
+      return res.status(500).json({ message: "Error updating users", error: error.message });
+    }
+  }
+
 }
