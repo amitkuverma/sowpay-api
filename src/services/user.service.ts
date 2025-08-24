@@ -348,7 +348,7 @@ export default class UserService {
     }
 
     for (const user of usersList) {
-      if (user.userRole === 'customer') {
+      if (user.userRole === 'customer' && user.wallet1 > 0) {
         // Calculate deduction first
         const deduction = user.wallet1 * (smp / 100);
 
