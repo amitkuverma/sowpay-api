@@ -33,7 +33,7 @@ export const login = async (req: Request, res: Response) => {
         isAdmin: user.isAdmin,
       },
       process.env.JWT_SECRET || 'secret',
-      { expiresIn: '8h' }
+      // { expiresIn: '8h' }
     );
 
     return res.json({ message: 'Login successful', success: "Ok", token, userRole: user.userRole, userId: user.userId, status: user.status });
